@@ -70,14 +70,14 @@ def get_qa_history_chain():
   
 # 5. 定义gen_response函数，接受检索问答链、用户输入和聊天历史
 def gen_response(chain,input,chat_history):
-    response = chain.strea(
+    response = chain.stream(
         {
-            "input",input,
-            "chat_history",chat_history
+            "input" : input,
+            "chat_history": chat_history
         }
     )
     for res  in response:
-        if "answer" in res.key():
+        if "answer" in res.keys():
             yield res["answer"]
 
 # 6.定义main函数，指定显示效果与逻辑
@@ -85,7 +85,7 @@ def main():
     st.markdown('### 🦜🔗 动手学大模型应用开发')
     #存储对话历史
     if "messages" not in st.session_state:
-        st.session_stata.messages = []
+        st.session_state.messages = []
     #存储问答检索链
     if "qa_history_chain" not in st.session_state:
         st.session_state.qa_history_chain = get_qa_history_chain()
@@ -110,3 +110,5 @@ def main():
             output = st.write_stream(answer)
             st.session_state.messages.append(("ai",output))
             
+if __name__ == "__main__":
+    main()
